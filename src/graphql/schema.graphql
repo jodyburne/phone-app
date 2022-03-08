@@ -1,0 +1,71 @@
+directive @specifiedBy(url: String!) on SCALAR
+input AddNoteInput {
+  activityId: ID!
+  content: String!
+}
+
+type AuthResponseType {
+  access_token: String!
+  refresh_token: String!
+  user: UserType!
+}
+
+type Call {
+  id: ID!
+  direction: String!
+  from: String!
+  to: String!
+  duration: Float!
+  via: String!
+  is_archived: Boolean!
+  call_type: String!
+  created_at: String!
+  notes: [Note!]!
+}
+
+type DeprecatedAuthResponseType {
+  access_token: String!
+  user: UserType!
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+type Mutation {
+  addNote(input: AddNoteInput!): Call!
+  archiveCall(id: ID!): Call!
+  login(input: LoginInput!): AuthResponseType!
+  refreshToken: DeprecatedAuthResponseType!
+    @deprecated(
+      reason: "This has been deprecated, please use the refreshTokenV2 mutation"
+    )
+  refreshTokenV2: AuthResponseType!
+}
+
+type Note {
+  id: ID!
+  content: String!
+}
+
+type PaginatedCalls {
+  nodes: [Call!]
+  totalCount: Int!
+  hasNextPage: Boolean!
+}
+
+type Query {
+  paginatedCalls(offset: Float = 0, limit: Float = 10): PaginatedCalls!
+  call(id: ID!): Call
+  me: UserType!
+}
+
+type Subscription {
+  onUpdatedCall: Call
+}
+
+type UserType {
+  id: String!
+  username: String!
+}

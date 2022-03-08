@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Tractor } from "@aircall/tractor";
+import { Provider } from "./graphql/Provider";
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import CallList from "./pages/CallList";
+import CallDetails from "./pages/CallDetails";
+import Home from "./pages/Home";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => (
+  <Tractor injectStyle>
+    <BrowserRouter>
+      <Provider>
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/calls" element={<CallList />} />
+          <Route path="/call/:id" element={<CallDetails />} />
+          <Route path="/*" element={<Navigate replace to="/home" />} />
+        </Routes>
+      </Provider>
+    </BrowserRouter>
+  </Tractor>
+);
 
 export default App;

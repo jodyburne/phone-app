@@ -1,0 +1,10 @@
+mutation Login {
+  login(input: { username: "Salvador Sobral", password: "helloo" }) {
+    access_token
+    refresh_token
+    user {
+      id
+      username
+    }
+  }
+}
